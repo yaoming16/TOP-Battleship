@@ -1,4 +1,4 @@
-export default shipTypes = [
+let shipTypes = [
     {
         name: "Carrier",
         length: 5,
@@ -24,5 +24,6 @@ export default shipTypes = [
         length: 2,
         number: 3
     },
-
 ]
+
+export default shipTypes;

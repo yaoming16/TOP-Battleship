@@ -1,7 +1,7 @@
 export default function createBoardDisplay(gameBoardObj, container) {
     for (let i = 0; i <= gameBoardObj.x; i++) {
         for (let j = 0; j <= gameBoardObj.y; j++) {
-
+            // First cell is empty
             if (i === 0 && j !== 0) {
                 let div = document.createElement("div");
                 div.classList.add("gameboard-title");
@@ -9,28 +9,25 @@ export default function createBoardDisplay(gameBoardObj, container) {
                 p.textContent = j;
                 div.appendChild(p);
                 container.appendChild(div);
-            } 
-
-            else if (j === 0 && i !== 0) {
+                //x coord titles
+            } else if (j === 0 && i !== 0) {
                 let div = document.createElement("div");
                 div.classList.add("gameboard-title");
                 const p = document.createElement("p");
                 p.textContent = i;
                 div.appendChild(p);
                 container.appendChild(div);
-            }
-
-            else if (j === 0 && i === 0) {
+                //y coord titles
+            } else if (j === 0 && i === 0) {
                 let div = document.createElement("div");
                 div.classList.add("empty-div");
                 container.appendChild(div);
-            }
-
-            else if (i !== 0 && j !== 0) {
+                // game squares
+            } else if (i !== 0 && j !== 0) {
                 let div = document.createElement("div");
                 div.classList.add("gameboard-div");
                 container.appendChild(div);
-            } 
+            }
         }
-    } 
+    }
 }

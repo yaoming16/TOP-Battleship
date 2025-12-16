@@ -60,12 +60,12 @@ export default class GameBoard {
     #bufferOfTheCoord(coord) {
         const AX = coord[0];
         const AY = coord[1];
-        coordsToReturn = [[AX-1, AY],[AX-1, AY+1],[AX-1, AY-1],[AX, AY + 1],[AX, AY - 1],[AX - 1, AY],[AX-1, AY+1],[AX-1,AY-1]];
+        const coordsToReturn = [[AX-1, AY],[AX-1, AY+1],[AX-1, AY-1],[AX, AY + 1],[AX, AY - 1],[AX - 1, AY],[AX-1, AY+1],[AX-1,AY-1]];
         return coordsToReturn;
     }
 
     #coordBInsideBufferA(coordA, coordB) {
-        coordsToCheck = this.#bufferOfTheCoord(coordA);
+        const coordsToCheck = this.#bufferOfTheCoord(coordA);
         return this.#checkIfVectorAlreadyInArray(coordsToCheck, coordB[0], coordB[1]);
     }
 
