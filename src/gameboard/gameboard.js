@@ -59,6 +59,12 @@ export default class GameBoard {
         return null;
     }
 
+    #coordAIsNextToCoordB(coordA, coordB) {
+        const AX = coordA[0];
+        const AY = coordA[1];
+        coordsToCheck = [[],[],[],[],[],[],[],[],[]]
+    }
+
     placeShip(ship, coordX, coordY, direction) {
         // If direction is invalid return
         if (direction !== "horizontal" && direction !== "vertical")
@@ -73,11 +79,7 @@ export default class GameBoard {
         // If coordX or coordY outside the board return
         if (!this.#areCoordsInsideTheBoard(coordX, coordY)) return false;
 
-        // Dont place if ships overlap
-        if (this.#coordHasAShip(coordX, coordY) !== null) {
-            return false;
-        }
-
+        // Calculate all ships coords and buffer
         let allShipCoords = [];
         for (let i = 0; i < ship.length; i++) {
             if (direction === "horizontal") {
@@ -85,6 +87,18 @@ export default class GameBoard {
             } else {
                 allShipCoords.push([coordX, coordY + i]);
             }
+        }
+
+        // Dont place if ships overlap
+        for (let coord of allShipCoords) {
+            if (this.#coordHasAShip(coord[0], coord[1]) !== null) {
+                return false;
+            }
+        }
+
+        //Dont place ship one next to another
+        for (ship of allShipCoords) {
+
         }
 
         let shipInfo = {
@@ -114,10 +128,18 @@ export default class GameBoard {
         let shipInfo = this.#coordHasAShip(coordX, coordY);
         if (shipInfo !== null) {
             this.#hits.push([coordX, coordY]);
-            shipInfo.hit();
+            shipInfo.ship.hit();
+
+            //check if ship was sunk
+            if (shipInfo.ship.isSunk()) return "sunk";
+            else return "hit";
         } else {
             this.#misses.push([coordX, coordY]);
+            return "miss";
         }
+    }
 
+    allShipsSunk() {
+        return this.#ships.every((shipInfo) => shipInfo.ship.isSunk());
     }
 }
