@@ -1,5 +1,3 @@
-import Ship from "../ship/ship.js";
-
 export default class GameBoard {
     #x;
     #y;
@@ -59,10 +57,16 @@ export default class GameBoard {
         return null;
     }
 
-    #coordAIsNextToCoordB(coordA, coordB) {
-        const AX = coordA[0];
-        const AY = coordA[1];
-        coordsToCheck = [[],[],[],[],[],[],[],[],[]]
+    #bufferOfTheCoord(coord) {
+        const AX = coord[0];
+        const AY = coord[1];
+        coordsToReturn = [[AX-1, AY],[AX-1, AY+1],[AX-1, AY-1],[AX, AY + 1],[AX, AY - 1],[AX - 1, AY],[AX-1, AY+1],[AX-1,AY-1]];
+        return coordsToReturn;
+    }
+
+    #coordBInsideBufferA(coordA, coordB) {
+        coordsToCheck = this.#bufferOfTheCoord(coordA);
+        return this.#checkIfVectorAlreadyInArray(coordsToCheck, coordB[0], coordB[1]);
     }
 
     placeShip(ship, coordX, coordY, direction) {
@@ -89,17 +93,20 @@ export default class GameBoard {
             }
         }
 
-        // Dont place if ships overlap
+        // Dont place if ships overlap or ship is inside the buffer of another ship
+        let shipBuffer = [];
         for (let coord of allShipCoords) {
-            if (this.#coordHasAShip(coord[0], coord[1]) !== null) {
-                return false;
-            }
-        }
+            if (this.#coordHasAShip(coord[0], coord[1]) !== null ) return false;
 
-        //Dont place ship one next to another
-        for (ship of allShipCoords) {
-
+            // Here we get the coord of all the buffe rof the ship
+            shipBuffer = [...shipBuffer, ...this.#bufferOfTheCoord(coord)];
         }
+        // We use a set so we eliminate all repeated buffer coords
+        let shipBufferSet = [...new Set(shipBuffer)];
+        let shipBufferArr = [...shipBufferSet];
+
+        // Here we check if there is already placed a ship on what would be the buffer of the new ship
+        if (shipBufferArr.some(bufferCoord => this.#coordHasAShip(bufferCoord[0], bufferCoord[1]))) return false;
 
         let shipInfo = {
             starCoord: [coordX, coordY],

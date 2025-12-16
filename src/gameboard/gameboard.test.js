@@ -64,8 +64,8 @@ test("place multiple ship on gameboard", () => {
     const ship3 = new Ship(5);
     const ship4 = new Ship(6);
     const placed1 = gameBoard.placeShip(ship, 1, 1, "horizontal");
-    const placed2 = gameBoard.placeShip(ship2, 1, 2, "horizontal");
-    const placed3 = gameBoard.placeShip(ship3, 1, 3, "horizontal");
+    const placed2 = gameBoard.placeShip(ship2, 1, 3, "horizontal");
+    const placed3 = gameBoard.placeShip(ship3, 1, 5, "horizontal");
     const placed4 = gameBoard.placeShip(ship4, 9, 1, "vertical");
     expect(placed1).toBe(true);
     expect(placed2).toBe(true);
@@ -194,8 +194,8 @@ test("cant place one ship next to another ship", () => {
     const result1 = gameBoard.placeShip(ship1, 5, 3, "vertical");
     const result2 = gameBoard.placeShip(ship2, 6, 4, "vertical");
     const result3 = gameBoard.placeShip(ship3, 4, 8, "horizontal");
-    expect(result1).toBe("cant place next to another ship");
-    expect(result2).toBe("cant place next to another ship");
-    expect(result3).toBe("cant place next to another ship");
+    expect(result1).toBe(true);
+    expect(result2).toBe(false);
+    expect(result3).toBe(false);
 
 })
