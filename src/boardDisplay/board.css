@@ -34,3 +34,12 @@
 .ship-cell {
     background-color: #8d8b8b;
 }
+
+.attacked-cell {
+    background-color: #b0d4f1;
+}
+
+.attacked-cell .ship-cell {
+    background-color: #f15b5b;
+}
+
