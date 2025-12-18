@@ -31,7 +31,7 @@
     border-left: 1px solid #000;  
 }
 
-.ship-cell {
+.ship-cell:not(.hidden-cell) {
     background-color: #8d8b8b;
 }
 

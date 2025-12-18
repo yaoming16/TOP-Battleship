@@ -35,7 +35,7 @@ export function createBoardDisplay(gameBoardObj, container) {
     }
 }
 
-export function renderShips(gameBoardObj, container) {
+export function renderShips(gameBoardObj, container, hide = false) {
     for (let shipInfo of gameBoardObj.ships) {
         for (let coord of shipInfo.allCoords) {
             const [x, y] = coord;
@@ -44,8 +44,17 @@ export function renderShips(gameBoardObj, container) {
             const cell = container.querySelector(
                 `[data-x="${x}"][data-y="${y}"]`
             );
-            if (cell) cell.classList.add("ship-cell");
-            cell.setAttribute("ship-id", `ship-${shipInfo.ship.id}`);
+
+            if(hide) {
+                cell.classList.add("hidden-cell");
+
+
+            } else { 
+                cell.classList.remove("hidden-cell");     
+                cell.classList.add("ship-cell");
+                cell.setAttribute("ship-id", `ship-${shipInfo.ship.id}`);
+            }
+
         }
     }
 }

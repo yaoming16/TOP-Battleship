@@ -84,7 +84,7 @@ const gameManager = new GameManager(player1, player2);
 attachBoardListeners(player1Div, 0, gameManager);
 attachBoardListeners(player2Div, 1, gameManager);
 
-renderShips(player2GameBoard, player2Div);
+renderShips(player2GameBoard, player2Div, true);
 renderShips(player1GameBoard, player1Div);
 
 const startButton = document.querySelector("#start-btn");
