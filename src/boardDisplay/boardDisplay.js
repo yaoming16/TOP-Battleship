@@ -44,8 +44,8 @@ export function renderShips(gameBoardObj, container) {
             const cell = container.querySelector(
                 `[data-x="${x}"][data-y="${y}"]`
             );
-            if (cell)
-                cell.classList.add("ship-cell", `ship-${shipInfo.ship.id}`);
+            if (cell) cell.classList.add("ship-cell");
+            cell.setAttribute("ship-id", `ship-${shipInfo.ship.id}`);
         }
     }
 }

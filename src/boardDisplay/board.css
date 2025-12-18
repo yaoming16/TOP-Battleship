@@ -39,7 +39,11 @@
     background-color: #b0d4f1;
 }
 
-.attacked-cell .ship-cell {
+.attacked-cell.ship-cell {
     background-color: #f15b5b;
+}
+
+.attacked-cell.ship-cell.sunk-cell {
+    background-color: #a31b1b;
 }
 

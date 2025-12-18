@@ -1,10 +1,32 @@
 export default class GameManager {
     #players;
     #active;
+    #gameStarted;
 
     constructor(player1, player2) {
         this.#players = [player1, player2];
         this.#active = 0;
+        this.#gameStarted = false;
+    }
+
+    get gameStarted() {
+        return this.#gameStarted;
+    }
+
+    get active() {
+        return this.#active;
+    }
+
+    get players() {
+        return this.#players;
+    }
+
+    startGame() {
+        this.#gameStarted = true;
+    }
+
+    endGame() {
+         this.#gameStarted = false;
     }
 
     getCurrentPlayer() {
@@ -27,7 +49,7 @@ export default class GameManager {
     }
 
     isGameOver() {
-        return this.getOpponent().gameBoard.allShipsSunk();
+        return this.#players[0].gameBoard.allShipsSunk() || this.#players[1].gameBoard.allShipsSunk();
     }
 
 }

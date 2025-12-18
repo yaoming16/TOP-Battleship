@@ -1,5 +1,5 @@
 let shipTypes = [
-    {
+/*     {
         name: "Carrier",
         length: 5,
         number: 1
@@ -18,7 +18,7 @@ let shipTypes = [
         name: "Submarine",
         length: 3,
         number: 1
-    },
+    }, */
     {
         name: "Patrol Boat",
         length: 2,
