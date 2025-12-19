@@ -1,14 +1,17 @@
 import GameBoard from "../gameboard/gameboard.js";
+import AI from "../ai/ai.js";
 
 export default class Player {
     #type;
     #gameBoard;
+    #ai;
 
     constructor(type = "human", gameBoard = new GameBoard(), movesHistory) {
         if (type === "human" || type === "robot") {
             this.#type = type;
         }
         this.#gameBoard = gameBoard;
+        this.#ai = type === "robot" ? new AI() : null;
     }
 
     get type() {
@@ -20,19 +23,9 @@ export default class Player {
     }
 
     makeAIMove(opponentBoard) {
-        if (this.#type === "robot") {
-            return this.#makeRandomAttack(opponentBoard);
+        if (this.#type === "robot" && this.#ai) {
+            return this.#ai.makeAttack(opponentBoard);
         }
         return null;
-    }
-
-    #makeRandomAttack(board) {
-        let x, y, result;
-        do {
-            x = Math.floor(Math.random() * board.x) + 1;
-            y = Math.floor(Math.random() * board.y) + 1;
-            result = board.receiveAttack(x, y);
-        } while (result === "already attacked");
-        return result;
     }
 }

@@ -3,6 +3,7 @@ import Player from "./player/player.js";
 import {
     createBoardDisplay,
     renderShips,
+    clearShipsDisplay
 } from "./boardDisplay/boardDisplay.js";
 import placeShipsObj from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
@@ -70,7 +71,6 @@ function attachBoardListeners(playerDiv, playerNumber, gameManager, otherPlayerD
                 } else {
                     attackedCellCoords = targetBoard.hits.at(-1);
                 }
-                console.log(attackedCellCoords)
                 attackedCell = otherPlayerDiv.querySelector(`[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`);
 
                 changeCellClasses(attackResult, attackedCell, otherPlayerDiv);
@@ -98,8 +98,8 @@ player1Div.style.setProperty("--length-y", player1GameBoard.y + 1);
 player2Div.style.setProperty("--length-x", player2GameBoard.x + 1);
 player2Div.style.setProperty("--length-y", player2GameBoard.y + 1);
 
-placeShipsObj(player2GameBoard, "random");
 placeShipsObj(player1GameBoard, "random");
+placeShipsObj(player2GameBoard, "random");
 
 createBoardDisplay(player1GameBoard, player1Div);
 createBoardDisplay(player2GameBoard, player2Div);
@@ -112,11 +112,22 @@ attachBoardListeners(player2Div, 1, gameManager, player1Div);
 renderShips(player1GameBoard, player1Div);
 renderShips(player2GameBoard, player2Div, true);
 
-const startButton = document.querySelector("#start-btn");
+const startBtn = document.querySelector("#start-btn");
+const placeRandomBtn = document.querySelector("#place-random-btn");
 const status = document.querySelector("#status");
 
-startButton.addEventListener("click", () => {
-    startButton.disabled = true;
+startBtn.addEventListener("click", () => {
+    startBtn.disabled = true;
+    placeRandomBtn.disabled = true;
     status.textContent = "Player 1 turn";
     gameManager.startGame();
 });
+
+placeRandomBtn.addEventListener("click", () => {
+    if (gameManager.gameStarted) {
+        gameManager.players[0].gameBoard.clearGameBoard();
+        clearShipsDisplay(player1Div);
+        placeShipsObj(player1GameBoard, "random");
+        renderShips(player1GameBoard, player1Div);
+    }
+})

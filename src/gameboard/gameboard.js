@@ -138,6 +138,12 @@ export default class GameBoard {
         return true;
     }
 
+    clearGameBoard() {
+        this.#hits = [];
+        this.#misses = [];
+        this.#ships = [];
+    }
+
     receiveAttack(coordX, coordY) {
         // If coordX or coordY outside the board return
         if (!this.#areCoordsInsideTheBoard(coordX, coordY))

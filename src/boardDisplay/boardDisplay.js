@@ -56,3 +56,9 @@ export function renderShips(gameBoardObj, container, hide = false) {
         }
     }
 }
+
+export function clearShipsDisplay(container) {
+    container.querySelectorAll(".gameboard-div").forEach(div => {
+        div.classList.remove("ship-cell");
+    });
+}
