@@ -1,11 +1,3 @@
-#board-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20px;
-}
-
 .gameboard-title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -14,36 +6,47 @@
     align-items: center;
 }
 
+
 .board-div {
     display: inline-grid; /* shrink-wrap to content */
-    grid-template-columns: repeat(var(--length-y), 50px);
-    grid-template-rows: repeat(var(--length-x), 50px);
-    border-right: 1px solid #000; 
-    border-bottom: 1px solid #000; 
+    grid-template-columns: repeat(var(--length-y), 46px);
+    grid-template-rows: repeat(var(--length-x), 46px);
+    border-right: 1px solid var(--stroke-soft);
+    border-bottom: 1px solid var(--stroke-soft);
     width: fit-content;
     height: fit-content;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
 }
 
 .gameboard-div {
-    width: 50px;
-    height: 50px;
-    border-top: 1px solid #000;   
-    border-left: 1px solid #000;  
+    width: 46px;
+    height: 46px;
+    border-top: 1px solid var(--stroke-soft);
+    border-left: 1px solid var(--stroke-soft);
+    background: #0f1a2f;
+    transition: background 120ms ease, transform 120ms ease;
+}
+
+.gameboard-div:hover {
+    background: #12203b;
+    transform: translateY(-1px);
 }
 
 .ship-cell:not(.hidden-cell) {
-    background-color: #8d8b8b;
+    background-color: var(--cell-ship);
 }
 
 .attacked-cell {
-    background-color: #b0d4f1;
+    background-color: var(--cell-miss);
 }
 
 .attacked-cell.ship-cell {
-    background-color: #f15b5b;
+    background-color: var(--cell-hit);
 }
 
 .attacked-cell.ship-cell.sunk-cell {
-    background-color: #a31b1b;
+    background-color: var(--cell-sunk);
 }
 

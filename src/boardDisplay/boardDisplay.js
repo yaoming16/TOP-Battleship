@@ -45,14 +45,12 @@ export function renderShips(gameBoardObj, container, hide = false) {
                 `[data-x="${x}"][data-y="${y}"]`
             );
 
+            cell.classList.add("ship-cell");
+            cell.setAttribute("ship-id", `ship-${shipInfo.ship.id}`);
             if(hide) {
                 cell.classList.add("hidden-cell");
-
-
             } else { 
                 cell.classList.remove("hidden-cell");     
-                cell.classList.add("ship-cell");
-                cell.setAttribute("ship-id", `ship-${shipInfo.ship.id}`);
             }
 
         }

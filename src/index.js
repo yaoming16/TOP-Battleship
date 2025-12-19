@@ -10,10 +10,44 @@ import GameManager from "./gameManager/gameManager.js";
 import "./style.css";
 import "./boardDisplay/board.css";
 
-function attachBoardListeners(playerDiv, playerNumber, gameManager) {
+function changeCellClasses(attackResult, cell, playerDiv) {
+    if (attackResult === "hit" || attackResult === "miss") {
+        cell.classList.add("attacked-cell");
+    } else if (attackResult === "sunk") {
+        cell.classList.add("attacked-cell");
+        let allSunkShipDivs = playerDiv.querySelectorAll(
+            `[ship-id="${cell.getAttribute("ship-id")}"]`
+        );
+        allSunkShipDivs.forEach((sunkShipCell) =>
+            sunkShipCell.classList.add("sunk-cell")
+        );
+    }
+}
+
+function changeStatusDisplay(gameManager) {
+    //Check if game ended
+    if (gameManager.isGameOver()) {
+        gameManager.endGame();
+        if (gameManager.players[0].gameBoard.allShipsSunk()) {
+            status.textContent = "Player 2 won";
+        } else {
+            status.textContent = "Player 1 won";
+        }
+    }
+    // if didnt ended change status text
+    else {
+        if (gameManager.active === 0) {
+            status.textContent = "Player 1 turn";
+        } else {
+            status.textContent = "Player 2 turn";
+        }
+    }
+}
+
+function attachBoardListeners(playerDiv, playerNumber, gameManager, otherPlayerDiv = null) {
     playerDiv.querySelectorAll(".gameboard-div").forEach((cell) => {
         cell.addEventListener("click", () => {
-            if (gameManager.gameStarted === false) return; // return if game didnt start yet 
+            if (gameManager.gameStarted === false) return; // return if game didnt start yet
             if (gameManager.active === playerNumber) return; // prevent player attackin oneself
 
             const x = parseInt(cell.dataset.x);
@@ -21,36 +55,27 @@ function attachBoardListeners(playerDiv, playerNumber, gameManager) {
 
             let attackResult = gameManager.attack(x, y);
 
-            if (attackResult === "hit" || attackResult === "miss") {
-                cell.classList.add("attacked-cell");
-            } else if (attackResult === "sunk") {
-                cell.classList.add("attacked-cell");
-                let allSunkShipDivs = playerDiv.querySelectorAll(
-                    `[ship-id="${cell.getAttribute("ship-id")}"]`
-                );
-                allSunkShipDivs.forEach((sunkShipCell) =>
-                    sunkShipCell.classList.add("sunk-cell")
-                );
-            }
+            changeCellClasses(attackResult, cell, playerDiv);
 
-            //Check if game ended
-            if (gameManager.isGameOver()) {
-                gameManager.endGame();
-                if (gameManager.players[0].gameBoard.allShipsSunk()) {
-                    status.textContent = 'Player 2 won'
-                } else {
-                    status.textContent = 'Player 1 won'
-                }
-            } 
-            // if didnt ended change status text
-            else {
-                if (gameManager.active === 0) {
-                    status.textContent = "Player 1 turn";
-                } else {
-                    status.textContent = "Player 2 turn";
-                }
-            }
+            changeStatusDisplay(gameManager);
 
+            if (gameManager.getCurrentPlayer().type === "robot") {
+                const targetBoard = gameManager.getOpponent().gameBoard; 
+                let attackResult = gameManager.attack();
+
+                let attackedCellCoords, attackedCell;
+                // Attack result can be miss, hit, or sunk
+                if (attackResult === "miss") {
+                    attackedCellCoords = targetBoard.misses.at(-1);
+                } else {
+                    attackedCellCoords = targetBoard.hits.at(-1);
+                }
+                console.log(attackedCellCoords)
+                attackedCell = otherPlayerDiv.querySelector(`[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`);
+
+                changeCellClasses(attackResult, attackedCell, otherPlayerDiv);
+                changeStatusDisplay(gameManager);
+            }
         });
     });
 }
@@ -81,11 +106,11 @@ createBoardDisplay(player2GameBoard, player2Div);
 
 const gameManager = new GameManager(player1, player2);
 
-attachBoardListeners(player1Div, 0, gameManager);
-attachBoardListeners(player2Div, 1, gameManager);
+attachBoardListeners(player1Div, 0, gameManager, player2Div);
+attachBoardListeners(player2Div, 1, gameManager, player1Div);
 
-renderShips(player2GameBoard, player2Div, true);
 renderShips(player1GameBoard, player1Div);
+renderShips(player2GameBoard, player2Div, true);
 
 const startButton = document.querySelector("#start-btn");
 const status = document.querySelector("#status");

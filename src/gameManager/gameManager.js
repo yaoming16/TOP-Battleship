@@ -37,10 +37,18 @@ export default class GameManager {
         return this.#active === 0? this.#players[1] : this.#players[0]; 
     }
 
-    attack(x, y) {
-        const result = this.getOpponent().gameBoard.receiveAttack(x, y);
-
-        if (result !== "already attacked") this.switchTurnIfNeeded(result);
+    attack(x = 0, y = 0) {
+        let result;
+        if (this.getCurrentPlayer().type === 'robot' ) {   
+            result = this.getCurrentPlayer().makeAIMove(this.getOpponent().gameBoard);
+            this.switchTurnIfNeeded(result);
+        } else {
+            result = this.getOpponent().gameBoard.receiveAttack(x, y);
+            if (result !== "already attacked") {
+                this.switchTurnIfNeeded(result);
+            }         
+            
+        }
         return result;
     }
 
