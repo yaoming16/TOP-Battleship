@@ -3,7 +3,7 @@ import Player from "./player/player.js";
 import {
     createBoardDisplay,
     renderShips,
-    clearShipsDisplay
+    clearShipsDisplay,
 } from "./boardDisplay/boardDisplay.js";
 import placeShipsObj from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
@@ -45,7 +45,12 @@ function changeStatusDisplay(gameManager) {
     }
 }
 
-function attachBoardListeners(playerDiv, playerNumber, gameManager, otherPlayerDiv = null) {
+function attachBoardListeners(
+    playerDiv,
+    playerNumber,
+    gameManager,
+    otherPlayerDiv = null
+) {
     playerDiv.querySelectorAll(".gameboard-div").forEach((cell) => {
         cell.addEventListener("click", () => {
             if (gameManager.gameStarted === false) return; // return if game didnt start yet
@@ -61,7 +66,7 @@ function attachBoardListeners(playerDiv, playerNumber, gameManager, otherPlayerD
             changeStatusDisplay(gameManager);
 
             if (gameManager.getCurrentPlayer().type === "robot") {
-                const targetBoard = gameManager.getOpponent().gameBoard; 
+                const targetBoard = gameManager.getOpponent().gameBoard;
                 let attackResult = gameManager.attack();
 
                 let attackedCellCoords, attackedCell;
@@ -71,7 +76,9 @@ function attachBoardListeners(playerDiv, playerNumber, gameManager, otherPlayerD
                 } else {
                     attackedCellCoords = targetBoard.hits.at(-1);
                 }
-                attackedCell = otherPlayerDiv.querySelector(`[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`);
+                attackedCell = otherPlayerDiv.querySelector(
+                    `[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`
+                );
 
                 changeCellClasses(attackResult, attackedCell, otherPlayerDiv);
                 changeStatusDisplay(gameManager);
@@ -124,10 +131,10 @@ startBtn.addEventListener("click", () => {
 });
 
 placeRandomBtn.addEventListener("click", () => {
-    if (gameManager.gameStarted) {
+    if (!gameManager.gameStarted) {
         gameManager.players[0].gameBoard.clearGameBoard();
         clearShipsDisplay(player1Div);
         placeShipsObj(player1GameBoard, "random");
         renderShips(player1GameBoard, player1Div);
     }
-})
+});

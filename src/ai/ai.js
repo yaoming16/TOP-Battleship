@@ -9,10 +9,13 @@ export default class AI {
 
     makeAttack(board) {
         // If it is the first attack, last attack was a miss or ships was sunk we want to make a random attack
-        if (this.#lastAttackStatus !== "hit" && !this.#continueAttackingSameShip)
+        if (
+            this.#lastAttackStatus !== "hit" &&
+            !this.#continueAttackingSameShip
+        )
             return this.#makeRandomAttack(board);
         else {
-            return this.#attackWithPreviousAttack(board, -1)
+            return this.#attackWithPreviousAttack(board, -1);
         }
     }
 
@@ -31,22 +34,29 @@ export default class AI {
     }
 
     #attackWithPreviousAttack(board, index) {
-        let [lastX, lastY] = board.hits.at(-1);
+        const lastHit = board.hits.at(index);
+        // If there is no previous hit to pivot from, fall back to random attack
+        if (!lastHit) return this.#makeRandomAttack(board);
+
+        let [lastX, lastY] = lastHit;
+        let randIndex, result, x, y;
         let possibleCoords = [
             [lastX, lastY - 1],
             [lastX, lastY + 1],
             [lastX - 1, lastY],
             [lastX + 1, lastY],
         ];
-        let randIndex, result, x, y;
         do {
-            randIndex = Math.floor(Math.random() * (possibleCoords.length));
+            randIndex = Math.floor(Math.random() * possibleCoords.length);
             [x, y] = possibleCoords[randIndex];
             possibleCoords.splice(randIndex, 1);
             result = board.receiveAttack(x, y);
-        } while ((result === "already attacked" || result === "out of bounds") && possibleCoords.length !== 0);
+        } while (
+            (result === "already attacked" || result === "out of bounds") &&
+            possibleCoords.length !== 0
+        );
         if (possibleCoords.length === 0) {
-            this.#attackWithPreviousAttack(board, index - 1);
+            return this.#attackWithPreviousAttack(board, index - 1);
         }
         this.#lastAttackStatus = result;
         if (result === "sunk") {
