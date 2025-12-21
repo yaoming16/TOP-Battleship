@@ -121,6 +121,7 @@ renderShips(player2GameBoard, player2Div, true);
 
 const startBtn = document.querySelector("#start-btn");
 const placeRandomBtn = document.querySelector("#place-random-btn");
+const placeShipsBtn = document.querySelector("Place-ships-btn");
 const status = document.querySelector("#status");
 
 startBtn.addEventListener("click", () => {
@@ -137,4 +138,9 @@ placeRandomBtn.addEventListener("click", () => {
         placeShipsObj(player1GameBoard, "random");
         renderShips(player1GameBoard, player1Div);
     }
+});
+
+placeShipsBtn.addEventListener("click", () => {
+    placeRandomBtn.disabled = true;
+    startBtn.disabled = true;
 });

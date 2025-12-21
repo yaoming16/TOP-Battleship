@@ -30,6 +30,7 @@ function placeShipsObj(gameBoardObj, mode) {
                 }
             } while (shipTypeAmount !== 0);
         }
+    } else if (mode === "manual") {
     }
 }
 
