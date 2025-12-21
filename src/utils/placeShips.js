@@ -1,7 +1,7 @@
 import shipTypes from "../shipTypes.js";
 import Ship from "../ship/ship.js";
 
-function placeShipsObj(gameBoardObj, mode) {
+function placeShipsObj(gameBoardObj, mode, shipsLeft = null, coords = null) {
     const directions = ["vertical", "horizontal"];
     if (mode === "random") {
         for (let shipType of shipTypes) {
@@ -30,7 +30,8 @@ function placeShipsObj(gameBoardObj, mode) {
                 }
             } while (shipTypeAmount !== 0);
         }
-    } else if (mode === "manual") {
+    } if(mode = "manual" && shipsLeft && coords) {
+        let nextShip = 
     }
 }
 

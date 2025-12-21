@@ -1,5 +1,6 @@
 import GameBoard from "./gameboard/gameboard.js";
 import Player from "./player/player.js";
+import shipTypes from "./shipTypes.js";
 import {
     createBoardDisplay,
     renderShips,
@@ -127,6 +128,7 @@ const status = document.querySelector("#status");
 startBtn.addEventListener("click", () => {
     startBtn.disabled = true;
     placeRandomBtn.disabled = true;
+    placeShipsBtn.disabled = true;
     status.textContent = "Player 1 turn";
     gameManager.startGame();
 });
@@ -140,7 +142,10 @@ placeRandomBtn.addEventListener("click", () => {
     }
 });
 
+let placeManual = false;
 placeShipsBtn.addEventListener("click", () => {
     placeRandomBtn.disabled = true;
     startBtn.disabled = true;
+    placeManual = true;
+    let shipsLeft = structuredClone(shipTypes);
 });
