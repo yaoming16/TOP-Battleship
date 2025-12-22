@@ -6,7 +6,7 @@ import {
     renderShips,
     clearShipsDisplay,
 } from "./boardDisplay/boardDisplay.js";
-import placeShipsObj from "./utils/placeShips.js";
+import {placeShipsRandomObj, placeOneShip} from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
 
 import "./style.css";
@@ -54,11 +54,32 @@ function attachBoardListeners(
 ) {
     playerDiv.querySelectorAll(".gameboard-div").forEach((cell) => {
         cell.addEventListener("click", () => {
-            if (gameManager.gameStarted === false) return; // return if game didnt start yet
-            if (gameManager.active === playerNumber) return; // prevent player attackin oneself
-
+            if (!gameManager.gameStarted && !placeManual) return; // return if game didnt start yet and not placing manual
+            if (gameManager.active === playerNumber && !placeManual) return; // prevent player attackin oneself and not placing manual
+            
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
+            
+            //if mode is set to place ships
+            if (placeManual === true) {
+                if (shipsLeft.length > 0) {
+                    shipsLeft = placeOneShip(
+                        player1GameBoard,
+                        shipsLeft,
+                        [x, y],
+                        shipDirection
+                    );
+                    clearShipsDisplay(player1Div);
+                    renderShips(player1GameBoard, player1Div);
+                } 
+                if (shipsLeft.length === 0) {
+                    placeManual = false;
+                    placeRandomBtn.disabled = false;
+                    startBtn.disabled = false;
+                    changeDirectionBtn.disable = true;
+                }
+                return;
+            }
 
             let attackResult = gameManager.attack(x, y);
 
@@ -74,7 +95,7 @@ function attachBoardListeners(
                 // Attack result can be miss, hit, or sunk
                 if (attackResult === "miss") {
                     attackedCellCoords = targetBoard.misses.at(-1);
-                } else {
+                } else if(attackResult === "hit" || attackResult === "sunk") {
                     attackedCellCoords = targetBoard.hits.at(-1);
                 }
                 attackedCell = otherPlayerDiv.querySelector(
@@ -106,8 +127,8 @@ player1Div.style.setProperty("--length-y", player1GameBoard.y + 1);
 player2Div.style.setProperty("--length-x", player2GameBoard.x + 1);
 player2Div.style.setProperty("--length-y", player2GameBoard.y + 1);
 
-placeShipsObj(player1GameBoard, "random");
-placeShipsObj(player2GameBoard, "random");
+placeShipsRandomObj(player1GameBoard);
+placeShipsRandomObj(player2GameBoard);
 
 createBoardDisplay(player1GameBoard, player1Div);
 createBoardDisplay(player2GameBoard, player2Div);
@@ -122,8 +143,11 @@ renderShips(player2GameBoard, player2Div, true);
 
 const startBtn = document.querySelector("#start-btn");
 const placeRandomBtn = document.querySelector("#place-random-btn");
-const placeShipsBtn = document.querySelector("Place-ships-btn");
+const placeShipsBtn = document.querySelector("#place-ships-btn");
+const changeDirectionBtn = document.querySelector("#ship-direction-btn");
 const status = document.querySelector("#status");
+
+changeDirectionBtn.disabled = true;
 
 startBtn.addEventListener("click", () => {
     startBtn.disabled = true;
@@ -137,15 +161,28 @@ placeRandomBtn.addEventListener("click", () => {
     if (!gameManager.gameStarted) {
         gameManager.players[0].gameBoard.clearGameBoard();
         clearShipsDisplay(player1Div);
-        placeShipsObj(player1GameBoard, "random");
+        placeShipsRandomObj(player1GameBoard);
         renderShips(player1GameBoard, player1Div);
     }
 });
 
 let placeManual = false;
+let shipsLeft = structuredClone(shipTypes);
+let shipDirection = "horizontal";
 placeShipsBtn.addEventListener("click", () => {
+    shipsLeft = structuredClone(shipTypes);
+    placeManual = true;
+    changeDirectionBtn.disabled = false;
     placeRandomBtn.disabled = true;
     startBtn.disabled = true;
-    placeManual = true;
-    let shipsLeft = structuredClone(shipTypes);
+    gameManager.players[0].gameBoard.clearGameBoard();
+    clearShipsDisplay(player1Div);
 });
+
+changeDirectionBtn.addEventListener("click",() => {
+    if (shipDirection === "horizontal") {
+        shipDirection = "vertical";
+    } else {
+        shipDirection = "horizontal"
+    }
+})
