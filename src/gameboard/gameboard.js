@@ -132,6 +132,7 @@ export default class GameBoard {
             direction: direction,
             allCoords: allShipCoords,
             ship: ship,
+            shipBuffer: shipBufferArr,
         };
 
         this.#ships.push(shipInfo);
@@ -163,7 +164,7 @@ export default class GameBoard {
             shipInfo.ship.hit();
 
             //check if ship was sunk
-            if (shipInfo.ship.isSunk()) return "sunk";
+            if (shipInfo.ship.isSunk())  return "sunk";
             else return "hit";
         } else {
             this.#misses.push([coordX, coordY]);

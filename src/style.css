@@ -10,10 +10,12 @@
     --muted: #94a3b8;
     --success: #16a34a;
     --danger: #ef4444;
-    --cell-miss: #0f1235;
+    --cell-miss: #1a216d;
     --cell-hit: #ef4444;
     --cell-sunk: #b91c1c;
     --cell-ship: #505f74;
+    --cell-user-marked: #a78bfa;
+    --cell-size: 46px;
 }
 
 * {
@@ -25,8 +27,16 @@
 
 body {
     min-height: 100vh;
-    background: radial-gradient(circle at 20% 20%, rgba(124, 93, 255, 0.1), transparent 35%),
-        radial-gradient(circle at 80% 10%, rgba(79, 70, 229, 0.12), transparent 40%),
+    background: radial-gradient(
+            circle at 20% 20%,
+            rgba(124, 93, 255, 0.1),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(79, 70, 229, 0.12),
+            transparent 40%
+        ),
         linear-gradient(140deg, #0a1122 0%, #0f172a 40%, #0c162e 100%);
     color: var(--text);
     display: flex;
@@ -50,6 +60,7 @@ section:first-of-type {
     align-items: center;
     gap: 16px;
     margin-bottom: 24px;
+    flex-wrap: wrap;
 }
 
 h1 {
@@ -71,12 +82,15 @@ button {
     border-radius: 10px;
     border: 1px solid var(--accent);
     background: linear-gradient(120deg, var(--accent), var(--accent-strong));
-    color: #0b1020;
+    color: rgb(236, 233, 233);
     font-weight: 700;
     cursor: pointer;
     transition: transform 120ms ease, box-shadow 120ms ease;
     box-shadow: 0 10px 30px rgba(124, 93, 255, 0.3);
     transition: all 500ms ease-in-out;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
+    white-space: nowrap;
 }
 
 button:active {
@@ -91,14 +105,80 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-    transform: scale(1.1);
-    box-shadow: 200 14px 40px rgba(124, 93, 255, 0.35);
+    transform: scale(1.05);
+    box-shadow: 0 14px 40px rgba(124, 93, 255, 0.35);
+}
+
+@media (max-width: 600px) {
+    button {
+        padding: 8px 12px;
+        font-size: 0.875rem;
+        transform: scale(1);
+    }
+
+    button:hover:not(:disabled) {
+        transform: scale(1.02);
+    }
 }
 
 #board-div {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
+    justify-items: center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1120px) {
+    :root {
+        --cell-size: 38px;
+    }
+}
+
+@media (max-width: 915px) {
+    :root {
+        --cell-size: 36px;
+    }
+    #board-div {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    section:first-of-type {
+        align-items: flex-start;
+    }
+    section:first-of-type > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --cell-size: 30px;
+    }
+    main {
+        padding: 20px;
+    }
+    #board-div {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 420px) {
+    :root {
+        --cell-size: 26px;
+    }
+    main {
+        padding: 16px;
+    }
+    #board-div {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 .board-shell {
@@ -120,5 +200,3 @@ button:hover:not(:disabled) {
     text-transform: uppercase;
     font-size: 0.95rem;
 }
-
-

@@ -6,7 +6,7 @@ import {
     renderShips,
     clearShipsDisplay,
 } from "./boardDisplay/boardDisplay.js";
-import {placeShipsRandomObj, placeOneShip} from "./utils/placeShips.js";
+import { placeShipsRandomObj, placeOneShip } from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
 
 import "./style.css";
@@ -53,13 +53,27 @@ function attachBoardListeners(
     otherPlayerDiv = null
 ) {
     playerDiv.querySelectorAll(".gameboard-div").forEach((cell) => {
+        //Event so player can mark cell
+        cell.addEventListener("contextmenu", (event) => {
+            if (!gameManager.gameStarted && !placeManual) return; // return if game didnt start yet and not placing manual
+            if (gameManager.active === playerNumber && !placeManual) return; // prevent player attackin oneself and not placing manual
+
+            event.preventDefault();
+            if (cell.classList.contains("cell-user-marked")) {
+                cell.classList.remove("cell-user-marked");
+            } else {
+                cell.classList.add("cell-user-marked");
+            }
+        });
+
+        //Add event to play the game/change visual styles
         cell.addEventListener("click", () => {
             if (!gameManager.gameStarted && !placeManual) return; // return if game didnt start yet and not placing manual
             if (gameManager.active === playerNumber && !placeManual) return; // prevent player attackin oneself and not placing manual
-            
+
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
-            
+
             //if mode is set to place ships
             if (placeManual === true) {
                 if (shipsLeft.length > 0) {
@@ -71,12 +85,12 @@ function attachBoardListeners(
                     );
                     clearShipsDisplay(player1Div);
                     renderShips(player1GameBoard, player1Div);
-                } 
+                }
                 if (shipsLeft.length === 0) {
                     placeManual = false;
                     placeRandomBtn.disabled = false;
                     startBtn.disabled = false;
-                    changeDirectionBtn.disable = true;
+                    changeDirectionBtn.disabled = true;
                 }
                 return;
             }
@@ -95,8 +109,13 @@ function attachBoardListeners(
                 // Attack result can be miss, hit, or sunk
                 if (attackResult === "miss") {
                     attackedCellCoords = targetBoard.misses.at(-1);
-                } else if(attackResult === "hit" || attackResult === "sunk") {
+                } else if (attackResult === "hit" || attackResult === "sunk") {
                     attackedCellCoords = targetBoard.hits.at(-1);
+                }
+                // Guard against undefined coords in edge cases
+                if (!attackedCellCoords) {
+                    changeStatusDisplay(gameManager);
+                    return;
                 }
                 attackedCell = otherPlayerDiv.querySelector(
                     `[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`
@@ -179,10 +198,10 @@ placeShipsBtn.addEventListener("click", () => {
     clearShipsDisplay(player1Div);
 });
 
-changeDirectionBtn.addEventListener("click",() => {
+changeDirectionBtn.addEventListener("click", () => {
     if (shipDirection === "horizontal") {
         shipDirection = "vertical";
     } else {
-        shipDirection = "horizontal"
+        shipDirection = "horizontal";
     }
-})
+});
