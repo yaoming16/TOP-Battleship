@@ -109,6 +109,13 @@ button:hover:not(:disabled) {
     box-shadow: 0 14px 40px rgba(124, 93, 255, 0.35);
 }
 
+button:focus-visible {
+    outline: 3px solid var(--accent-strong);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgba(159, 123, 255, 0.3),
+                0 14px 40px rgba(124, 93, 255, 0.35);
+}
+
 @media (max-width: 600px) {
     button {
         padding: 8px 12px;
@@ -199,4 +206,11 @@ button:hover:not(:disabled) {
     color: var(--muted);
     text-transform: uppercase;
     font-size: 0.95rem;
+}
+
+#player1-board-wrapper,
+#player2-board-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

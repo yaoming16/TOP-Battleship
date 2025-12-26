@@ -10,17 +10,65 @@
             <section>
                 <h1>Battleship</h1>
                 <div>
-                    <p id="status">Status section</p>
-                    <button id="start-btn">Start</button>
-                    <button id="place-random-btn">Place at random</button>
-                    <button id="place-ships-btn">Place ships</button>
-                    <button id="ship-direction-btn">Change ship direction</button>
+                    <p id="status" aria-live="polite" aria-atomic="true">
+                        Status section
+                    </p>
+                    <button 
+                        id="start-btn" 
+                        aria-label="Start the game"
+                    >
+                        Start Game
+                    </button>
+                    <button 
+                        id="place-random-btn" 
+                        aria-label="Randomly place all ships on your board"
+                    >
+                        Place ships at random
+                    </button>
+                    <button
+                        id="place-ships-btn"
+                        aria-describedby="ship-placement-desc"
+                        aria-label="Manually place ships on your board"
+                    >
+                        Place ships manually
+                    </button>
+                    <span id="ship-placement-desc" style="display: none"
+                        >Click cells to place ships. Use Change ship direction
+                        button to rotate.</span
+                    >
+                    <button
+                        id="ship-direction-btn"
+                        aria-label="Change ship direction (currently horizontal)"
+                    >
+                        Change ship direction
+                    </button>
+                    <p
+                        id="game-instructions"
+                        style="
+                            font-size: 0.875rem;
+                            color: var(--muted);
+                            margin-top: 8px;
+                        "
+                    >
+                        💡 Tip: Press M to mark cells • Long-press on mobile •
+                        Right-click on desktop
+                    </p>
                 </div>
             </section>
             <section>
                 <div id="board-div">
-                    <div id="player1-div" class="board-div"></div>
-                    <div id="player2-div" class="board-div"></div>
+                    <div id="player1-board-wrapper">
+                        <h2 id="player1-label" class="board-label">
+                            Your Board
+                        </h2>
+                        <div id="player1-div" class="board-div"></div>
+                    </div>
+                    <div id="player2-board-wrapper">
+                        <h2 id="player2-label" class="board-label">
+                            Enemy Board
+                        </h2>
+                        <div id="player2-div" class="board-div"></div>
+                    </div>
                 </div>
             </section>
         </main>

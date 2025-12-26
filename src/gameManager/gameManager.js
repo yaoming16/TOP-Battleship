@@ -1,14 +1,20 @@
+import shipTypes from "../shipTypes.js";
+
 export default class GameManager {
     #players;
     #active;
     #gameStarted;
     #placeManual;
+    #shipsLeft;
+    #shipDirection;
 
     constructor(player1, player2) {
         this.#players = [player1, player2];
         this.#active = 0;
         this.#gameStarted = false;
         this.#placeManual = false;
+        this.#shipsLeft = structuredClone(shipTypes);
+        this.#shipDirection = "horizontal";
     }
 
     get gameStarted() {
@@ -34,6 +40,25 @@ export default class GameManager {
 
     get players() {
         return this.#players;
+    }
+
+    get shipsLeft() {
+        return this.#shipsLeft;
+    }
+
+    get shipDirection() {
+        return this.#shipDirection;
+    }
+
+    set shipDirection(value) {
+        if (value !== "horizontal" && value !== "vertical") {
+            throw new Error("shipDirection must be 'horizontal' or 'vertical'");
+        }
+        this.#shipDirection = value;
+    }
+
+    resetShips() {
+        this.#shipsLeft = structuredClone(shipTypes);
     }
 
     startGame() {
