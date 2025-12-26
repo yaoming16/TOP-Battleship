@@ -36,13 +36,21 @@ function changeStatusDisplay(gameManager) {
             status.textContent = "Player 1 won";
         }
     }
-    // if didnt ended change status text
-    else {
+
+    // If already started show current player. Else ask player to click start button to play 
+    if (gameManager.gameStarted) {
         if (gameManager.active === 0) {
             status.textContent = "Player 1 turn";
         } else {
             status.textContent = "Player 2 turn";
         }
+    } else {
+        status.textContent = "Click Start to play"
+    }
+
+    // if we are adding ships
+    if (gameManager.placeManual) {
+        status.textContent = `Place a ${shipsLeft[0].name} (Length: ${shipsLeft[0].length}) (Direction: ${shipDirection})`;
     }
 }
 
@@ -55,8 +63,9 @@ function attachBoardListeners(
     playerDiv.querySelectorAll(".gameboard-div").forEach((cell) => {
         //Event so player can mark cell
         cell.addEventListener("contextmenu", (event) => {
-            if (!gameManager.gameStarted && !placeManual) return; // return if game didnt start yet and not placing manual
-            if (gameManager.active === playerNumber && !placeManual) return; // prevent player attackin oneself and not placing manual
+            if (!gameManager.gameStarted && !gameManager.placeManual) return; // return if game didnt start yet and not placing manual
+            if (gameManager.active === playerNumber && !gameManager.placeManual)
+                return; // prevent player attackin oneself and not placing manual
 
             event.preventDefault();
             if (cell.classList.contains("cell-user-marked")) {
@@ -68,14 +77,15 @@ function attachBoardListeners(
 
         //Add event to play the game/change visual styles
         cell.addEventListener("click", () => {
-            if (!gameManager.gameStarted && !placeManual) return; // return if game didnt start yet and not placing manual
-            if (gameManager.active === playerNumber && !placeManual) return; // prevent player attackin oneself and not placing manual
+            if (!gameManager.gameStarted && !gameManager.placeManual) return; // return if game didnt start yet and not placing manual
+            if (gameManager.active === playerNumber && !gameManager.placeManual)
+                return; // prevent player attackin oneself and not placing manual
 
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
 
             //if mode is set to place ships
-            if (placeManual === true) {
+            if (gameManager.placeManual === true) {
                 if (shipsLeft.length > 0) {
                     shipsLeft = placeOneShip(
                         player1GameBoard,
@@ -87,11 +97,12 @@ function attachBoardListeners(
                     renderShips(player1GameBoard, player1Div);
                 }
                 if (shipsLeft.length === 0) {
-                    placeManual = false;
+                    gameManager.placeManual = false;
                     placeRandomBtn.disabled = false;
                     startBtn.disabled = false;
                     changeDirectionBtn.disabled = true;
                 }
+                changeStatusDisplay(gameManager);
                 return;
             }
 
@@ -185,17 +196,17 @@ placeRandomBtn.addEventListener("click", () => {
     }
 });
 
-let placeManual = false;
 let shipsLeft = structuredClone(shipTypes);
 let shipDirection = "horizontal";
 placeShipsBtn.addEventListener("click", () => {
     shipsLeft = structuredClone(shipTypes);
-    placeManual = true;
+    gameManager.placeManual = true;
     changeDirectionBtn.disabled = false;
     placeRandomBtn.disabled = true;
     startBtn.disabled = true;
     gameManager.players[0].gameBoard.clearGameBoard();
     clearShipsDisplay(player1Div);
+    changeStatusDisplay(gameManager);
 });
 
 changeDirectionBtn.addEventListener("click", () => {
@@ -204,4 +215,7 @@ changeDirectionBtn.addEventListener("click", () => {
     } else {
         shipDirection = "horizontal";
     }
+    changeStatusDisplay(gameManager);
 });
+
+changeStatusDisplay(gameManager)
