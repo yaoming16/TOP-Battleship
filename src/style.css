@@ -40,8 +40,9 @@ body {
         linear-gradient(140deg, #0a1122 0%, #0f172a 40%, #0c162e 100%);
     color: var(--text);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column; /* stack main and footer vertically */
+    justify-content: flex-start;
+    align-items: center;
     padding: 40px 16px 64px;
 }
 
@@ -66,6 +67,12 @@ section:first-of-type {
 h1 {
     font-weight: 800;
     letter-spacing: -0.02em;
+}
+
+.status-container {
+    text-align: center;
+    max-width: 600px;
+    margin: 2rem auto;
 }
 
 #status {
@@ -113,7 +120,7 @@ button:focus-visible {
     outline: 3px solid var(--accent-strong);
     outline-offset: 3px;
     box-shadow: 0 0 0 6px rgba(159, 123, 255, 0.3),
-                0 14px 40px rgba(124, 93, 255, 0.35);
+        0 14px 40px rgba(124, 93, 255, 0.35);
 }
 
 @media (max-width: 600px) {
@@ -213,4 +220,54 @@ button:focus-visible {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* Footer (matches site theme) */
+.footer {
+    margin-top: 32px;
+    padding: 16px 24px;
+    background: var(--panel);
+    border-top: 1px solid var(--stroke-soft);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    width: 100%; /* span full width under main */
+}
+
+.footer p {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.footer a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+    padding: 2px 4px;
+    border-radius: 6px;
+}
+
+.footer a:hover {
+    color: var(--accent);
+
+    background: var(--panel-strong);
+}
+
+.footer a:focus-visible {
+    outline: 3px solid var(--accent-strong);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgba(159, 123, 255, 0.25);
+}
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 12px 16px;
+        gap: 12px;
+    }
+    .footer p {
+        font-size: 0.9rem;
+    }
 }

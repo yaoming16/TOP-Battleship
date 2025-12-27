@@ -103,4 +103,13 @@ export default class GameManager {
             this.#players[1].gameBoard.allShipsSunk()
         );
     }
+
+    resetGame() {
+        this.#players.forEach((player) => player.gameBoard.clearGameBoard());
+        this.#gameStarted = false;
+        this.#active = 0;
+        this.#placeManual = false;
+        this.#shipsLeft = structuredClone(shipTypes);
+        this.#shipDirection = "horizontal";
+    }
 }

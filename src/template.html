@@ -10,17 +10,11 @@
             <section>
                 <h1>Battleship</h1>
                 <div>
-                    <p id="status" aria-live="polite" aria-atomic="true">
-                        Status section
-                    </p>
-                    <button 
-                        id="start-btn" 
-                        aria-label="Start the game"
-                    >
+                    <button id="start-btn" aria-label="Start the game">
                         Start Game
                     </button>
-                    <button 
-                        id="place-random-btn" 
+                    <button
+                        id="place-random-btn"
                         aria-label="Randomly place all ships on your board"
                     >
                         Place ships at random
@@ -42,6 +36,12 @@
                     >
                         Change ship direction
                     </button>
+                    <button
+                        id="restart-game-btn"
+                        aria-label="Restarts the game"
+                    >
+                        Restart Game
+                    </button>
                     <p
                         id="game-instructions"
                         style="
@@ -56,6 +56,14 @@
                 </div>
             </section>
             <section>
+                <p
+                    id="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    class="status-container"
+                >
+                    Status section
+                </p>
                 <div id="board-div">
                     <div id="player1-board-wrapper">
                         <h2 id="player1-label" class="board-label">
@@ -72,5 +80,27 @@
                 </div>
             </section>
         </main>
+        <footer class="footer">
+            <p>
+                Created by
+                <a
+                    href="https://github.com/yaoming16"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Pablo Perez on GitHub (opens in a new tab)"
+                    >Pablo Perez</a
+                >
+            </p>
+            <p>
+                Learn more
+                <a
+                    href="https://yaoming16.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Learn more about Pablo Perez on his website (opens in a new tab)"
+                    >about me</a
+                >
+            </p>
+        </footer>
     </body>
 </html>

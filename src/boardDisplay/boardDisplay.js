@@ -88,5 +88,20 @@ export function renderShips(gameBoardObj, container, hide = false) {
 export function clearShipsDisplay(container) {
     container.querySelectorAll(".gameboard-div").forEach((div) => {
         div.classList.remove("ship-cell");
+        div.removeAttribute("ship-id");
+        // restore base ARIA label without ship info
+        const x = div.getAttribute("data-x");
+        const y = div.getAttribute("data-y");
+        if (x && y) {
+            const columnLetter = String.fromCharCode(64 + Number(x));
+            div.setAttribute("aria-label", `Column ${columnLetter}, Row ${y}`);
+        }
+    });
+}
+
+export function clearBoardVisual(container) {
+    container.querySelectorAll(".gameboard-div").forEach((div) => {
+        div.classList.remove("hit-cell");
+        div.classList.remove("miss-cell");
     });
 }

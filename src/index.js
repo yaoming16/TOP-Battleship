@@ -4,11 +4,12 @@ import {
     createBoardDisplay,
     renderShips,
     clearShipsDisplay,
+    clearBoardVisual,
 } from "./boardDisplay/boardDisplay.js";
 import { placeShipsRandomObj } from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
 import changeStatusDisplay from "./ui/statusDisplay.js";
-import attachBoardListeners from "./ui/boardListener.js"
+import attachBoardListeners from "./ui/boardListener.js";
 
 import "./style.css";
 import "./boardDisplay/board.css";
@@ -50,10 +51,14 @@ const placeRandomBtn = document.querySelector("#place-random-btn");
 const placeShipsBtn = document.querySelector("#place-ships-btn");
 const changeDirectionBtn = document.querySelector("#ship-direction-btn");
 const status = document.querySelector("#status");
+const restartBtn = document.querySelector("#restart-game-btn");
 
 // Initialize button labels
 startBtn.setAttribute("aria-label", "Start the game");
-placeRandomBtn.setAttribute("aria-label", "Randomly place all ships on your board");
+placeRandomBtn.setAttribute(
+    "aria-label",
+    "Randomly place all ships on your board"
+);
 placeShipsBtn.setAttribute("aria-label", "Manually place ships on your board");
 
 changeDirectionBtn.disabled = true;
@@ -63,15 +68,21 @@ startBtn.addEventListener("click", () => {
     startBtn.disabled = true;
     startBtn.setAttribute("aria-disabled", "true");
     startBtn.setAttribute("aria-label", "Game started");
-    
+
     placeRandomBtn.disabled = true;
     placeRandomBtn.setAttribute("aria-disabled", "true");
-    placeRandomBtn.setAttribute("aria-label", "Cannot change ship placement - game in progress");
-    
+    placeRandomBtn.setAttribute(
+        "aria-label",
+        "Cannot change ship placement - game in progress"
+    );
+
     placeShipsBtn.disabled = true;
     placeShipsBtn.setAttribute("aria-disabled", "true");
-    placeShipsBtn.setAttribute("aria-label", "Cannot change ship placement - game in progress");
-    
+    placeShipsBtn.setAttribute(
+        "aria-label",
+        "Cannot change ship placement - game in progress"
+    );
+
     status.textContent = "Player 1 turn";
     gameManager.startGame();
 });
@@ -88,20 +99,23 @@ placeRandomBtn.addEventListener("click", () => {
 placeShipsBtn.addEventListener("click", () => {
     gameManager.resetShips();
     gameManager.placeManual = true;
-    
+
     changeDirectionBtn.disabled = false;
     changeDirectionBtn.setAttribute("aria-disabled", "false");
-    
+
     placeRandomBtn.disabled = true;
     placeRandomBtn.setAttribute("aria-disabled", "true");
-    placeRandomBtn.setAttribute("aria-label", "Cannot use random placement - manual mode active");
-    
+    placeRandomBtn.setAttribute(
+        "aria-label",
+        "Cannot use random placement - manual mode active"
+    );
+
     startBtn.disabled = true;
     startBtn.setAttribute("aria-disabled", "true");
     startBtn.setAttribute("aria-label", "Finish placing ships before starting");
-    
+
     placeShipsBtn.setAttribute("aria-label", "Manual placement mode active");
-    
+
     gameManager.players[0].gameBoard.clearGameBoard();
     clearShipsDisplay(player1Div);
     changeStatusDisplay(gameManager);
@@ -121,6 +135,26 @@ changeDirectionBtn.addEventListener("click", () => {
             "Change ship direction (currently horizontal)"
         );
     }
+    changeStatusDisplay(gameManager);
+});
+
+restartBtn.addEventListener("click", () => {
+    gameManager.resetGame();
+    clearShipsDisplay(player1Div);
+    clearShipsDisplay(player2Div);
+    clearBoardVisual(player1Div);
+    clearBoardVisual(player2Div);
+
+    startBtn.disabled = false;
+    startBtn.setAttribute("aria-disabled", "false");
+    placeRandomBtn.disabled = false;
+    placeRandomBtn.setAttribute("aria-disabled", "false");
+    placeShipsBtn.disabled = false;
+    placeShipsBtn.setAttribute("aria-disabled", "false");
+    changeDirectionBtn.disabled = true;
+    changeDirectionBtn.setAttribute("aria-disabled", "true");
+
+    placeRandomBtn.click();
     changeStatusDisplay(gameManager);
 });
 
