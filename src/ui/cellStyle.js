@@ -1,5 +1,11 @@
 export function changeCellClasses(attackResult, cell, playerDiv) {
-    const currentLabel = cell.getAttribute("aria-label");
+    // Guard: if cell is null, log and return to avoid crashes
+    if (!cell) {
+        console.warn("changeCellClasses called with null cell for result:", attackResult);
+        return;
+    }
+    
+    const currentLabel = cell.getAttribute("aria-label") || "";
 
     if (attackResult === "hit" || attackResult === "miss") {
         cell.classList.add("attacked-cell");

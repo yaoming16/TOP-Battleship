@@ -103,6 +103,11 @@ export default function attachBoardListeners(
                     const startBtn = document.querySelector("#start-btn");
                     const changeDirectionBtn = document.querySelector("#ship-direction-btn");
                     const placeShipsBtn = document.querySelector("#place-ships-btn");
+                    const restartBtn = document.querySelector("#restart-game-btn");
+                    
+                    restartBtn.disabled = false;
+                    restartBtn.setAttribute("aria-disabled", "false");
+                    restartBtn.setAttribute("aria-label", "Restart the game - all ships placed");
                     
                     placeRandomBtn.disabled = false;
                     placeRandomBtn.setAttribute("aria-disabled", "false");
@@ -125,13 +130,19 @@ export default function attachBoardListeners(
 
             changeCellClasses(attackResult, cell, playerDiv);
 
+            if (gameManager.isGameOver()) {
+                gameManager.endGame();
+            }
+
             changeStatusDisplay(gameManager);
 
             if (gameManager.getCurrentPlayer().type === "robot") {
+                // IMPORTANT: Get target board BEFORE attack, because attack() switches turns
                 const targetBoard = gameManager.getOpponent().gameBoard;
                 let attackResult = gameManager.attack();
 
                 let attackedCellCoords, attackedCell;
+                
                 // Attack result can be miss, hit, or sunk
                 if (attackResult === "miss") {
                     attackedCellCoords = targetBoard.misses.at(-1);
@@ -147,9 +158,20 @@ export default function attachBoardListeners(
                     `[data-x="${attackedCellCoords[0]}"][data-y="${attackedCellCoords[1]}"]`
                 );
 
+                if (!attackedCell) {
+                    console.warn("Cell not found in DOM for coords:", attackedCellCoords);
+                }
+
                 changeCellClasses(attackResult, attackedCell, otherPlayerDiv);
+                
+                
+                if (gameManager.isGameOver()) {
+                    gameManager.endGame();
+                }
+
                 changeStatusDisplay(gameManager);
             }
+            changeStatusDisplay(gameManager);
         });
     });
 }

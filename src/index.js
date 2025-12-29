@@ -4,7 +4,6 @@ import {
     createBoardDisplay,
     renderShips,
     clearShipsDisplay,
-    clearBoardVisual,
 } from "./boardDisplay/boardDisplay.js";
 import { placeShipsRandomObj } from "./utils/placeShips.js";
 import GameManager from "./gameManager/gameManager.js";
@@ -110,6 +109,13 @@ placeShipsBtn.addEventListener("click", () => {
         "Cannot use random placement - manual mode active"
     );
 
+    restartBtn.disabled = true;
+    restartBtn.setAttribute("aria-disabled", "true");
+    restartBtn.setAttribute(
+        "aria-label",
+        "Cannot restart - finish placing ships first"
+    );
+
     startBtn.disabled = true;
     startBtn.setAttribute("aria-disabled", "true");
     startBtn.setAttribute("aria-label", "Finish placing ships before starting");
@@ -142,8 +148,12 @@ restartBtn.addEventListener("click", () => {
     gameManager.resetGame();
     clearShipsDisplay(player1Div);
     clearShipsDisplay(player2Div);
-    clearBoardVisual(player1Div);
-    clearBoardVisual(player2Div);
+
+    // Refresh ships with new placement
+    placeShipsRandomObj(player1GameBoard);
+    placeShipsRandomObj(player2GameBoard);
+    renderShips(player1GameBoard, player1Div);
+    renderShips(player2GameBoard, player2Div, true);
 
     startBtn.disabled = false;
     startBtn.setAttribute("aria-disabled", "false");
@@ -154,7 +164,6 @@ restartBtn.addEventListener("click", () => {
     changeDirectionBtn.disabled = true;
     changeDirectionBtn.setAttribute("aria-disabled", "true");
 
-    placeRandomBtn.click();
     changeStatusDisplay(gameManager);
 });
 

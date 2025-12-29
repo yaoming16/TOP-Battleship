@@ -36,7 +36,7 @@ export default class AI {
         const lastHit = board.hits.at(index);
         // If there is no previous hit to pivot from, fall back to random attack
         if (!lastHit){
-            this.#hitsToShip === 0;
+            this.#hitsToShip = 0;
             return this.#makeRandomAttack(board);       
         } 
 
@@ -51,23 +51,15 @@ export default class AI {
         do {
             randIndex = Math.floor(Math.random() * possibleCoords.length);
             [x, y] = possibleCoords[randIndex];
-            possibleCoords.splice(randIndex, 1);
             result = board.receiveAttack(x, y);
         } while (
-            (result === "already attacked" || result === "out of bounds") &&
-            possibleCoords.length !== 0
-        );
+            (result === "already attacked" || result === "out of bounds") );
         if (result === "sunk") {
             this.#hitsToShip = 0;
         }
         if (result === "hit") {
             this.#hitsToShip++;
         }
-
-        if (possibleCoords.length === 0) {
-            return this.#attackWithPreviousAttack(board, index - 1);
-        }
-
         return result;
     }
 
@@ -77,14 +69,12 @@ export default class AI {
         const lastHit2 = board.hits.at(-this.#hitsToShip);
         // Fallback if we don't have two hits to infer direction
         if (!lastHit1 || !lastHit2) {
-            this.#hitsToShip === 0;
+            this.#hitsToShip = 0;
             return this.#makeRandomAttack(board);
         }
 
         const dx = Math.sign(lastHit1[0] - lastHit2[0]);
         const dy = Math.sign(lastHit1[1] - lastHit2[1]);
-        console.log(lastHit1, lastHit2)
-        console.log("dx", dx, "dy", dy)
 
         // Try extending forward from the most recent hit
         let x = lastHit1[0] + dx;
@@ -101,7 +91,7 @@ export default class AI {
         // If still invalid, fall back to random to guarantee progress
         if (result === "already attacked" || result === "out of bounds") {
             result = this.#makeRandomAttack(board);
-            this.#hitsToShip === 0;
+            this.#hitsToShip = 0;
         }
 
         // Track streak and resets

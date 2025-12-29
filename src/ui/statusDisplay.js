@@ -3,12 +3,12 @@ export default function changeStatusDisplay(gameManager) {
     
     //Check if game ended
     if (gameManager.isGameOver()) {
-        gameManager.endGame();
         if (gameManager.players[0].gameBoard.allShipsSunk()) {
             statusDiv.textContent = "Player 2 won";
         } else {
             statusDiv.textContent = "Player 1 won";
         }
+        return;
     }
 
     // If already started show current player. Else ask player to click start button to play
