@@ -1,8 +1,8 @@
-# Battleship Game
+# 🚢 Battleship Game
 
 A fully-featured, accessible Battleship game built with vanilla JavaScript, featuring an intelligent AI opponent, multiple control options, and a polished user interface.
 
-**[Play the Game](https://yaoming16.github.io/TOP-Battleship/)**
+🎮 **[Play the Game](https://yaoming16.github.io/TOP-Battleship/)**
 
 ![Battleship Game Screenshot](./screenshots/gameplay.png)
 _Game in action showing both player and enemy boards with various attack states_
@@ -10,11 +10,11 @@ _Game in action showing both player and enemy boards with various attack states_
 ![Ship placement](./screenshots/shipPlacement.png)
 _Game in action showing the ship placement phase_
 
-## About
+## 📖 About
 
 This project was created as part of [The Odin Project curriculum](https://www.theodinproject.com/lessons/node-path-javascript-battleship), focusing on test-driven development, object-oriented programming, and creating an engaging user experience.
 
-## Game Rules
+## 🎯 Game Rules
 
 Battleship is a classic naval strategy game where you try to sink all of your opponent's ships before they sink yours.
 
@@ -30,7 +30,7 @@ Battleship is a classic naval strategy game where you try to sink all of your op
 
 Attack cells on the enemy board to locate and sink all their ships. The first player to sink all enemy ships wins!
 
-## How to Play
+## 🎮 How to Play
 
 ### Setup Phase
 
@@ -66,7 +66,7 @@ Attack cells on the enemy board to locate and sink all their ships. The first pl
     - Sink all enemy ships before they sink yours!
     - Use **"Restart Game"** to play again with a fresh setup
 
-## Visual Indicators
+## 🎨 Visual Indicators
 
 ![Cell States](./screenshots/cell-states.png)
 _Visual guide showing different cell states and patterns_
@@ -89,7 +89,7 @@ _Visual guide showing different cell states and patterns_
 -   **Crosshatch**: Ship completely sunk
 -   **Vertical lines**: User-marked cells
 
-## Accessibility Features
+## ♿ Accessibility Features
 
 This game is built with accessibility in mind:
 
@@ -166,7 +166,7 @@ Tests cover:
 -   AI decision-making
 -   Board boundary checking
 
-## Local Development
+## 🚀 Local Development
 
 ```bash
 # Clone the repository
@@ -185,13 +185,13 @@ npm run build
 npm run deploy
 ```
 
-## Links
+## 🔗 Links
 
--   [Play the Game](https://yaoming16.github.io/TOP-Battleship/)
--   [The Odin Project Lesson](https://www.theodinproject.com/lessons/node-path-javascript-battleship)
--   [GitHub Repository](https://github.com/yaoming16/TOP-Battleship)
+-   🎮 [Play the Game](https://yaoming16.github.io/TOP-Battleship/)
+-   📚 [The Odin Project Lesson](https://www.theodinproject.com/lessons/node-path-javascript-battleship)
+-   👨‍💻 [GitHub Repository](https://github.com/yaoming16/TOP-Battleship)
 
-## Author
+## 👤 Author
 
 **Pablo Perez**
 
