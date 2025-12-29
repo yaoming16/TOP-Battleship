@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Battleship game</title>
+    <script defer src="main.js"></script></head>
+    <body>
+        <main>
+            <section>
+                <h1>Battleship</h1>
+                <div>
+                    <button id="start-btn" aria-label="Start the game">
+                        Start Game
+                    </button>
+                    <button
+                        id="place-random-btn"
+                        aria-label="Randomly place all ships on your board"
+                    >
+                        Place ships at random
+                    </button>
+                    <button
+                        id="place-ships-btn"
+                        aria-describedby="ship-placement-desc"
+                        aria-label="Manually place ships on your board"
+                    >
+                        Place ships manually
+                    </button>
+                    <span id="ship-placement-desc" style="display: none"
+                        >Click cells to place ships. Use Change ship direction
+                        button to rotate.</span
+                    >
+                    <button
+                        id="ship-direction-btn"
+                        aria-label="Change ship direction (currently horizontal)"
+                    >
+                        Change ship direction
+                    </button>
+                    <button
+                        id="restart-game-btn"
+                        aria-label="Restarts the game"
+                    >
+                        Restart Game
+                    </button>
+                    <p
+                        id="game-instructions"
+                        style="
+                            font-size: 0.875rem;
+                            color: var(--muted);
+                            margin-top: 8px;
+                        "
+                    >
+                        💡 Tip: Press M to mark cells • Long-press on mobile •
+                        Right-click on desktop
+                    </p>
+                </div>
+            </section>
+            <section>
+                <p
+                    id="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    class="status-container"
+                >
+                    Status section
+                </p>
+                <div id="board-div">
+                    <div id="player1-board-wrapper">
+                        <h2 id="player1-label" class="board-label">
+                            Your Board
+                        </h2>
+                        <div id="player1-div" class="board-div"></div>
+                    </div>
+                    <div id="player2-board-wrapper">
+                        <h2 id="player2-label" class="board-label">
+                            Enemy Board
+                        </h2>
+                        <div id="player2-div" class="board-div"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>
+                Created by
+                <a
+                    href="https://github.com/yaoming16"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Pablo Perez on GitHub (opens in a new tab)"
+                    >Pablo Perez</a
+                >
+            </p>
+            <p>
+                Learn more
+                <a
+                    href="https://yaoming16.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Learn more about Pablo Perez on his website (opens in a new tab)"
+                    >about me</a
+                >
+            </p>
+        </footer>
+    </body>
+</html>
